@@ -31,7 +31,7 @@ This project is a full-stack YouTube video downloader application with a React-b
 ```bash
 cd backend
 ```
-# Create and activate a virtual environment:
+### Create and activate a virtual environment:
 
 ```bash
 python -m venv venv
@@ -39,6 +39,13 @@ python -m venv venv
 source venv/bin/activate
 # On Windows
 venv\Scripts\activate
-
-
-
+```
+Install dependencies:
+```bash
+pip install -r requirements.txt
+```
+Make sure FFmpeg is installed and available in your system PATH.
+Run the Flask app:
+```bash
+python app.py
+```
