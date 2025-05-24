@@ -1,0 +1,209 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #0d1b2a, #1b263b);
+  color: white;
+  padding: 20px;
+}
+
+/* Main Container */
+.container {
+  text-align: center;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(15px);
+  width: 90%;
+  max-width: 500px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  transition: transform 0.3s ease-in-out;
+}
+
+.container:hover {
+  transform: scale(1.03);
+}
+
+/* Title */
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #f8f9fa;
+}
+
+/* Form Container */
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Input Field */
+.input-field {
+  padding: 14px;
+  width: 100%;
+  border: none;
+  border-radius: 14px;
+  font-size: 16px;
+  outline: none;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  transition: 0.3s ease;
+  text-align: center;
+  font-weight: 500;
+}
+
+.input-field::placeholder {
+  color: #ccc;
+}
+
+.input-field:focus {
+  background: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
+  transform: scale(1.05);
+}
+
+/* Buttons */
+.download-button {
+  padding: 1px;
+  width: 100%;
+  border: none;
+  border-radius: 14px;
+  font-size: 12px;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.fetch-button {
+  padding: 12px;
+  width: 100%;
+  border: none;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: linear-gradient(90deg, #00a8e8, #0077b6);
+  box-shadow: 0 4px 15px rgba(0, 168, 232, 0.4);
+}
+
+.fetch-button:hover {
+  background: linear-gradient(90deg, #0077b6, #00a8e8);
+  transform: scale(1.06);
+  box-shadow: 0 6px 20px rgba(0, 168, 232, 0.6);
+}
+
+.download-button {
+  background: linear-gradient(90deg, #ff5733, #c70039);
+  box-shadow: 0 4px 15px rgba(255, 87, 51, 0.4);
+}
+
+.download-button:hover {
+  background: linear-gradient(90deg, #c70039, #ff5733);
+  transform: scale(1.06);
+  box-shadow: 0 6px 20px rgba(255, 87, 51, 0.6);
+}
+
+/* Error & Success Messages */
+.error-message, .success-message {
+  margin-top: 1rem;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 12px;
+  border-radius: 10px;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.error-message {
+  color: #ff3b3b;
+  background: rgba(255, 59, 59, 0.2);
+}
+
+.success-message {
+  color: #3bb54a;
+  background: rgba(59, 181, 74, 0.2);
+}
+
+/* Video Quality Table */
+.quality-table {
+  margin-top: 1.5rem;
+  width: 80%;
+  border-collapse: collapse;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.quality-table th, .quality-table td {
+  padding: 8px;
+  text-align: center;
+  color: white;
+  font-size: 14px;
+}
+
+.quality-table th {
+  background: rgba(0, 168, 232, 0.3);
+  font-size: 16px;
+}
+
+.quality-table tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.quality-table tr:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Thumbnail Styles */
+.thumbnail-container img {
+  width: 140px; /* Slightly larger than before */
+  height: auto;
+  border-radius: 10px;
+  margin-top: 1rem; /* Added gap between button and thumbnail */
+  margin-bottom: 1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .container {
+    padding: 1.5rem;
+    width: 95%;
+  }
+
+  .title {
+    font-size: 20px;
+  }
+
+  .input-field, .fetch-button, .download-button {
+    font-size: 16px;
+  }
+
+  .quality-table th, .quality-table td {
+    padding: 10px;
+    font-size: 12px;
+  }
+
+  .thumbnail-container img {
+    width: 120px;
+  }
+}

@@ -1,0 +1,19 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# Node
+node_modules/
+dist/
+build/
+
+# Temporary files
+backend/temp/
+frontend/temp/
+
+# IDE files
+.vscode/
+*.suo
+*.user
+*.swp
