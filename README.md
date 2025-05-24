@@ -30,6 +30,15 @@ This project is a full-stack YouTube video downloader application with a React-b
 
 ```bash
 cd backend
-
-
+```
 # Create and activate a virtual environment:
+
+```bash
+python -m venv venv
+# On Linux/macOS
+source venv/bin/activate
+# On Windows
+venv\Scripts\activate
+
+
+
