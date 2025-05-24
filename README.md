@@ -62,21 +62,20 @@ npm install
 ```bash
 npm run dev
 ```
+---
 
-Usage
-Enter a YouTube video URL on the frontend.
+## Usage
+*Enter a YouTube video URL on the frontend.
+*Choose desired video quality.
+*Click download and wait for the video to be processed and downloaded.
 
-Choose desired video quality.
-
-Click download and wait for the video to be processed and downloaded.
-
-Notes
+## Notes
 Make sure FFmpeg is installed to enable video/audio merging.
 
 Downloaded files are saved temporarily in backend/temp/.
 
-License
-MIT License
+## License
+## MIT License
 
-Author
-MdSham1403
+## Author
+## MdSham1403
