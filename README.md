@@ -49,3 +49,34 @@ pip install -r requirements.txt
 ```bash
 python app.py
 ```
+### Frontend
+1. Navigate to frontend directory:
+```bash
+cd frontend
+```
+2. Install dependencies:
+```bash
+npm install
+```
+3. Start the development server:
+```bash
+npm run dev
+```
+
+Usage
+Enter a YouTube video URL on the frontend.
+
+Choose desired video quality.
+
+Click download and wait for the video to be processed and downloaded.
+
+Notes
+Make sure FFmpeg is installed to enable video/audio merging.
+
+Downloaded files are saved temporarily in backend/temp/.
+
+License
+MIT License
+
+Author
+MdSham1403
