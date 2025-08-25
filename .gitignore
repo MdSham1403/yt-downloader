@@ -1,19 +1,38 @@
-# Python
+# Python virtual environment
 venv/
 __pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Byte-compiled / optimized / DLL files
 *.pyc
 
-# Node
-node_modules/
-dist/
-build/
-
-# Temporary files
+# Backend temp files
 backend/temp/
-frontend/temp/
 
-# IDE files
+# VSCode files
 .vscode/
-*.suo
-*.user
-*.swp
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Node.js dependencies
+frontend/node_modules/
+
+# Build outputs
+frontend/dist/
+frontend/build/
+
+# Logs
+*.log
+
+# dotenv environment variables
+.env
+
+# Ignore frontend local env files
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
