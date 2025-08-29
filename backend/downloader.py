@@ -2,7 +2,7 @@ import os
 import shutil
 from yt_dlp import YoutubeDL
 
-DOWNLOAD_DIR = "backend/temp"
+DOWNLOAD_DIR = "temp"
 os.makedirs(DOWNLOAD_DIR, exist_ok=True)
 
 
