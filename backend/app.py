@@ -6,7 +6,7 @@ from flask_cors import CORS
 from downloader import download_video, fetch_video_details
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": ["http://localhost:5173"]}})
+CORS(app, resources={r"/*": {"origins": ["https://ytdownloader-app.netlify.app"]}})
 socketio = SocketIO(app, cors_allowed_origins="*")
 
 DOWNLOAD_FOLDER = "backend/temp"
