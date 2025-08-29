@@ -34,7 +34,7 @@ export default function Home() {
     setLoading(true);
 
     try {
-      const response = await axios.post("http://127.0.0.1:5000/video-details", { url });
+      const response = await axios.post("https://yt-downloader-9z6h.onrender.com/video-details", { url });
       const allFormats = response.data.qualities || [];
       const filteredFormats = allFormats.filter(
         (format) => format.size !== "Unknown" && /^[0-9]+p$/.test(format.quality)
@@ -54,7 +54,7 @@ export default function Home() {
     setProgress(0);
 
     try {
-      const response = await fetch("http://127.0.0.1:5000/download", {
+      const response = await fetch("https://yt-downloader-9z6h.onrender.com/download", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ url, video_format: formatId }),
