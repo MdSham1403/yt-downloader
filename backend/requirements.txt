@@ -3,6 +3,7 @@ Flask-SocketIO
 flask-cors
 eventlet
 yt-dlp
+requests
 setuptools>=65.0.0
 wheel
 gunicorn
