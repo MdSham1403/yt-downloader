@@ -1,49 +1,55 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import io from "socket.io-client";
 import axios from "axios";
 import "./Home.css";
+
+const BACKEND_URL = "http://localhost:5000"; // Change to hosted URL in production
+const socket = io(BACKEND_URL);
 
 export default function Home() {
   const [url, setUrl] = useState("");
   const [formats, setFormats] = useState([]);
   const [thumbnail, setThumbnail] = useState("");
-  const [title, setTitle] = useState("");  // New state for video title
+  const [title, setTitle] = useState("");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [downloading, setDownloading] = useState(null);
   const [progress, setProgress] = useState(0);
 
-  const isValidYouTubeUrl = (inputUrl) => {
-    return /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+/.test(inputUrl);
-  };
+  useEffect(() => {
+    socket.on("download_progress", (data) => {
+      setProgress(parseInt(data.progress) || 0);
+    });
+    return () => socket.off("download_progress");
+  }, []);
+
+  const isValidYouTubeUrl = (inputUrl) =>
+    /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+/.test(inputUrl);
 
   const fetchFormats = async () => {
-    if (!url.trim()) {
-      setError("Please enter a YouTube URL.");
-      return;
-    }
-    if (!isValidYouTubeUrl(url)) {
-      setError("Invalid URL. Please enter a valid YouTube video link.");
-      return;
-    }
+    if (!url.trim()) return setError("Please enter a YouTube URL.");
+    if (!isValidYouTubeUrl(url)) return setError("Invalid YouTube URL.");
 
-    // Refresh state when fetching new video details
     setFormats([]);
     setThumbnail("");
-    setTitle("");    // Clear title when fetching new video
+    setTitle("");
     setError(null);
     setLoading(true);
 
     try {
-      const response = await axios.post("https://yt-downloader-9z6h.onrender.com/video-details", { url });
-      const allFormats = response.data.qualities || [];
-      const filteredFormats = allFormats.filter(
-        (format) => format.size !== "Unknown" && /^[0-9]+p$/.test(format.quality)
-      );
-      setFormats(filteredFormats);
-      setThumbnail(response.data.thumbnail || "");
-      setTitle(response.data.title || "video");  // Set title from backend response
+      const response = await axios.post(`${BACKEND_URL}/video-details`, { url });
+      const data = response.data;
+
+      if (data.error) {
+        setError(data.error);
+        return;
+      }
+
+      setFormats(data.qualities || []);
+      setThumbnail(data.thumbnail || "");
+      setTitle(data.title || "video");
     } catch (err) {
-      setError("Failed to fetch formats. Please try again.");
+      setError("Failed to fetch video details. Try again.");
     } finally {
       setLoading(false);
     }
@@ -52,41 +58,27 @@ export default function Home() {
   const downloadVideo = async (formatId) => {
     setDownloading(formatId);
     setProgress(0);
+    setError(null);
 
     try {
-      const response = await fetch("https://yt-downloader-9z6h.onrender.com/download", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url, video_format: formatId }),
-      });
+      const response = await axios.post(
+        `${BACKEND_URL}/download`,
+        { url, video_format: formatId, download_subtitles: true }, // ✅ always embed subtitles
+        { responseType: "blob" }
+      );
 
-      const reader = response.body.getReader();
-      const contentLength = +response.headers.get("Content-Length") || 100000000; // fallback if not provided
-      let receivedLength = 0;
-      let chunks = [];
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        chunks.push(value);
-        receivedLength += value.length;
-        setProgress(Math.round((receivedLength / contentLength) * 100));
-      }
-
-      const blob = new Blob(chunks);
+      const blob = new Blob([response.data]);
+      const safeTitle = title.replace(/[^a-z0-9_\- ]/gi, "").trim() || "video";
       const downloadUrl = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = downloadUrl;
-
-      // Use title as filename and sanitize for invalid chars
-      const safeTitle = title.replace(/[^a-z0-9_\- ]/gi, "").trim() || "video";
       a.download = `${safeTitle}.mp4`;
-
       document.body.appendChild(a);
       a.click();
       a.remove();
-    } catch (error) {
-      setError("Download failed.");
+      window.URL.revokeObjectURL(downloadUrl);
+    } catch (err) {
+      setError("Download failed. Please try again.");
     } finally {
       setDownloading(null);
       setProgress(0);
@@ -105,7 +97,11 @@ export default function Home() {
           value={url}
           onChange={(e) => setUrl(e.target.value)}
         />
-        <button className="fetch-button" onClick={fetchFormats} disabled={loading || !url.trim()}>
+        <button
+          className="fetch-button"
+          onClick={fetchFormats}
+          disabled={loading || !url.trim()}
+        >
           {loading ? "Fetching..." : "Get Video Quality"}
         </button>
       </div>
@@ -126,10 +122,10 @@ export default function Home() {
             </tr>
           </thead>
           <tbody>
-            {formats.map((format) => (
-              <tr key={format.quality}>
-                <td>{format.quality}p</td>
-                <td>{format.size} MB</td>
+            {formats.map((format, index) => (
+              <tr key={`${format.format_id}-${index}`}>
+                <td>{format.quality}</td>
+                <td>{format.size || "Unknown"}</td>
                 <td>
                   <button
                     className="download-button"
@@ -146,7 +142,6 @@ export default function Home() {
           </tbody>
         </table>
       )}
-
       {error && <p className="error-message">{error}</p>}
     </div>
   );
